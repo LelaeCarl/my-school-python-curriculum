@@ -1,0 +1,10 @@
+answer:越光宝盒#icon:movie_ygbh#title:恶搞风格的喜剧大片#options:线,话,飞,人,笑,越,黄,工,大,超,传,特,宝,鸿,队,赤,光,人,壁,盒
+answer:中国合伙人#icon:movie_zghhr#title:创业励志电影#options:越,狂,头,中,国,赤,派,壁,合,宝,的,美,疯,线,石,光,人,伙,人,盒
+answer:曹颖#icon:people_caoying#title:演员、主持人#options:林,曹,玛,泽,黄,井,颖,黄,飞,渤,鸿,利,依,林,空,苍,依,亚,蔡,晨
+answer:陈赫#icon:people_zengxiaoxian#title:《爱情公寓》主角#options:曾,丹,飞,吕,李,贤,黄,小,鸿,古,子,曾,天,赫,乔,陈,春,宇,乐,林
+answer:线人#icon:movie_xr#title:谢霆锋主演的悬疑犯罪片#options:超,光,窃,黄,无,间,鸿,笑,火,传,道,听,线,风,云,越,人,狱,索,飞
+answer:林俊杰#icon:people_linjunjie#title:著名歌手#options:宝,炫,杰,岳,伦,志,俊,震,汪,张,沙,庾,澄,亮,周,庆,城,林,杰,林,东
+answer:谭咏麟#icon:people_tanyonglin#title:香港演员、歌手#options:栋,林,杰,汪,张,炫,麟,咏,校,东,张,震,城,志,伦,谭,长,亮,岳,梁,周
+answer:刘德华#icon:people_liudehua#title:香港演员、歌手#options:德,荣,林,国,友,杰,华,刘,张,学,志,伦,咏,炫,富,郭,城,麟,谭,周,张
+answer:王心凌#icon:people_wangxinling#title:台湾演员、歌手#options:少,王,凌,依,泽,亚,岛,林,依,松,心,枫,利,小,蔡,曹,颖,林,玛,晨,芬
+answer:教父#icon:movie_jf#title:黑社会大片#options:江,亡,虎,龙,出,游,会,猛,更,戏,父,黑,特,死,老,社,教,过,惑,古

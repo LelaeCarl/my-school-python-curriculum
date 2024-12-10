@@ -1,0 +1,52 @@
+<!-- Pagination Query Section - Macro is like a function declaration in templates -->
+{% macro page(data, url) %}
+    {% if data %}
+        <ul class="pagination pagination-sm no-margin pull-right">
+            <li>
+                <a href="{{ url_for(url, page=1) }}">First Page</a>
+            </li>
+            {% if data.has_prev %}
+                <li>
+                    <a href="{{ url_for(url, page=data.prev_num) }}">
+                        Previous Page
+                    </a>
+                </li>
+            {% else %}
+                <li class="disabled">
+                    <a href="#">Previous Page</a>
+                </li>
+            {% endif %}
+            {% for v in data.iter_pages() %}
+                {% if v %}
+                    {% if v == data.page %}
+                        <li class="active">
+                            <a href="#">{{ v }}</a>
+                        </li>
+                    {% else %}
+                        <li>
+                            <a href="{{ url_for(url, page=v) }}">
+                                {{ v }}
+                            </a>
+                        </li>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+            {% if data.has_next %}
+                <li>
+                    <a href="{{ url_for(url, page=data.next_num) }}">
+                        Next Page
+                    </a>
+                </li>
+            {% else %}
+                <li class="disabled">
+                    <a href="#">Next Page</a>
+                </li>
+            {% endif %}
+            <li>
+                <a href="{{ url_for(url, page=data.pages) }}">
+                    Last Page
+                </a>
+            </li>
+        </ul>
+    {% endif %}
+{% endmacro %}

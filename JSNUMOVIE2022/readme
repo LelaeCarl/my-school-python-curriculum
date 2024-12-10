@@ -1,0 +1,94 @@
+Movie Management System
+
+1. Import the Database
+   1.1 Import the `movie.sql` file into the MySQL database.
+
+2. Create the `app` Package
+   2.1 Create a new `app` package under `JSNUMovie2022`.
+   2.2 Move `static` and `templates` folders into the `app` package.
+       - `static`: Stores public resources (js/css/jquery/image).
+       - `templates`: Stores UI files (html/jsp).
+   2.3 Delete the `app.py` file.
+
+3. Create `Manage.py` File
+   3.1 Create a new `Manager.py` file under the `JSNUMovie2022` package.
+   3.2 Use `Manager.py` to replace the functionality of `app.py`.
+   3.3 Fix `flask_script` errors:
+       - Run: `pip install flask-script==2.0.5` to install the required module.
+
+4. Add Code to `__init__.py` in the `app` Package
+   4.1 Set the project name.
+   4.2 Configure the database connection.
+   4.3 Configure project caching.
+   4.4 Enable DEBUG mode.
+   4.5 Establish database connection.
+   4.6 Set up caching mechanism.
+   4.7 Configure blueprints (to improve coding efficiency).
+       - Install required modules:
+         `flask-sqlalchemy==2.5.1`
+         `flask-redis==0.4.0`
+
+5. Create the `admin` Package under the `app` Package
+   5.1 Add `__init__.py` to configure the blueprint name for the module.
+   5.2 Create a `views.py` file in the `admin` package.
+   5.3 Add a `login` function in `admin/views.py`.
+
+6. Modify Run Configurations
+   6.1 Open the `JSNUMovie2022` settings and select **Edit Configurations**:
+       - Add a new **Python** configuration.
+       - Set **Name** to `MovieManager`.
+       - Add **Parameters**: `runserver`.
+       - Set **Script path** to `Manager.py` under the `JSNUMovie2022` folder.
+   6.2 Click the play button to run.
+   6.3 Open the console at `127.0.0.1:5000`.
+   6.4 Visit `127.0.0.1:5000/admin/login` in your browser.
+   6.5 Verify if "Hello World" is displayed.
+
+7. Create `admin` Folder in `app/templates`
+   7.1 Add a `login.html` file in `app/templates/admin`.
+
+8. Modify `templates/admin/login.html`
+   8.1 Copy and paste resources from `static` into the `static` directory.
+   8.2 Modify the `login.html` page.
+
+9. Update `app/admin/views.py`
+   9.1 Update the `Login` function.
+   9.2 Create a new `forms.py` file under `app/admin`.
+       - Install: `pip install flask-wtf`.
+   9.3 Test the changes.
+
+10. Implement Login Functionality
+    10.1 Query login data in `LoginForm` in `app/admin/forms.py`.
+    10.2 Create a `models.py` file in the `app` package to map the database.
+    10.3 Complete the `login` function code in `app/admin/views.py`.
+    10.4 Add an `index` function in `app/admin/views.py`.
+    10.5 Create an `index.html` file in `templates/admin`.
+    10.6 Add an `Adminlog` class in `app/models.py`.
+    10.7 Uncomment sections 1.7 and 1.8 in the `login` function in `views.py`.
+
+11. Update `index.html`
+    11.1 Create a `admin.html` file (header) in `templates/admin`.
+    11.2 Create a `grid.html` file (left menu) in `templates/admin`.
+    11.3 Modify the `index.html` page in `templates/admin`.
+
+12. Tag Management - Add Tags
+    12.1 Add a tag request in `grid.html`.
+    12.2 Add a `tag_add` function in `views.py`.
+    12.3 Add a `TagForm` class in `forms.py`.
+    12.4 Add a `tag_add.html` file in the `admin` folder.
+    12.5 Add a `Tag` class in `models.py`.
+
+13. Tag Management - Tag List
+    13.1 Add a tag list request in `grid.html`.
+    13.2 Add a `tag_list` function in `views.py`.
+    13.3 Add a `tag_list.html` file in the `admin` folder.
+    13.4 Create a `ui` folder under `templates` and add `admin_page.html` (pagination component).
+
+14. Tag Management - Edit Tag
+    14.1 Send an edit request in `tag_list.html`.
+    14.2 Add a `tag_edit` function in `views.py`.
+    14.3 Add a `tag_edit.html` file in the `admin` folder.
+
+15. Tag Management - Delete Tag
+    15.1 Send a delete request in `tag_list.html`.
+    15.2 Add a `tag_del` function in `views.py`.

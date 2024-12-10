@@ -1,0 +1,128 @@
+<!-- 1. Header Page Inheritance -->
+{% extends 'admin/admin.html' %}
+
+<!-- 2. Main Area -->
+{% block content %}
+    <!-- 2.1 Path Display -->
+    <section class="content-header">
+        <h1>Starry Sky Movie Management System</h1>
+        <ol class="breadcrumb">
+            <li>
+                <a href="#">
+                    <i class="fa fa-dashboard"></i>
+                    Home
+                </a>
+            </li>
+            <li class="active">
+                Dashboard
+            </li>
+        </ol>
+    </section>
+
+    <!-- 2.2 Display Content -->
+    <section class="content" id="showcontent">
+        <!-- 2.2.1 Memory Usage -->
+        <div class="row">
+            <div class="col-md-6">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Memory Usage</h3>
+                    </div>
+                    <div class="box-body" id="meminfo" style="height: 600px">
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2.2.2 System Settings -->
+            <div class="col-md-6">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">System Settings</h3>
+                    </div>
+                    <!-- Limit rate size, memory, and client count -->
+                    <form role="form">
+                        <div class="box-body" style="height: 600px">
+                            <!-- 1. Limit Rate Size -->
+                            <div class="form-group">
+                                <label for="input_speed">Limit Rate Size</label>
+                                <input type="text" class="form-control" id="input_speed"
+                                       placeholder="Enter limit rate size" value="512">
+                            </div>
+                            <!-- 2. Limit Memory Size -->
+                            <div class="form-group">
+                                <label for="input_mem">Limit Memory Size</label>
+                                <input type="text" class="form-control" id="input_mem"
+                                       placeholder="Enter limit memory size" value="10M">
+                            </div>
+                            <!-- 3. Limit Client Count -->
+                            <div class="form-group">
+                                <label for="input_num">Limit Client Count</label>
+                                <input type="text" class="form-control" id="input_num"
+                                       placeholder="Enter limit client count" value="4">
+                            </div>
+                            <!-- 4. Save Button -->
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">
+                                    Save and Restart
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+<!-- 3. JS Load Area -->
+{% block js %}
+    <!-- 3.1 Load JS Files -->
+    <script src="{{ url_for('static', filename='js/echarts.min.js') }}"></script>
+
+    <!-- 3.2 Call Display Tags -->
+    <script>
+        // 3.2.1 Initialize div object
+        var myChart = echarts.init(document.getElementById('meminfo'));
+
+        // 3.2.2 Option settings
+        option = {
+            backgroundColor: 'white',
+            tooltip: {
+                formatter: "{a} <br/> {b} : {c}%"
+            },
+            toolbox: {
+                feature: {
+                    restore: {},
+                    saveAsImage: {}
+                }
+            },
+            series: [{
+                name: "Memory Usage",
+                type: "gauge",
+                detail: {
+                    formatter: '{value}%'
+                },
+                data: [{
+                    value: 50,
+                    name: 'Memory Usage'
+                }]
+            }]
+        };
+
+        // Set the interval to 2000ms to execute code inside
+        setInterval(function () {
+            // Set the option value
+            option.series[0].data[0].value = (Math.random() * 100).toFixed(2) - 0;
+            // Apply option value to myChart
+            myChart.setOption(option, true);
+        }, 2000);
+    </script>
+
+    <!-- 3.3 Set Left Menu Options -->
+    <script>
+        $(document).ready(function () {
+            $("#g-1").addClass("active");
+            $("#g-1-1").addClass("active");
+        });
+    </script>
+{% endblock %}

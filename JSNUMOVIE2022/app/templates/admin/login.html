@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Management Page</title>
+    <!-- Solve compatibility issues with IE browsers -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Set page parameters -->
+    <!-- width=device-width: visible area of the page -->
+    <!-- initial-scale-1: display scale of the visible area, 1.0 -->
+    <!-- maximum-scale=? maximum zoom value -->
+    <!-- minimum-scale=? minimum zoom value -->
+    <!-- user-scalable=yes/no: whether the user can manually zoom -->
+    <!-- name='viewport': virtual window for mobile pages -->
+    <meta content="width=device-width,initial-scale-1,user-scalable=no" name="viewport">
+
+    <link rel="shortcut icon" href="{{ url_for('static', filename='base/images/logo.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='fonts/css/font-awesome.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='ionicons/css/ionicons.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin/dist/css/AdminLTE.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin/plugins/iCheck/square/blue.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin/bootstrap/css/bootstrap.min.css') }}">
+</head>
+
+<body class="hold-transition login-page" style="text-align: center">
+    <div class="login-box">
+        <div class="login-logo">
+            <b>Starry Sky Movie Management System</b>
+        </div>
+        <div class="login-box-body">
+            <!-- 1. Set login message display -->
+            <!-- Failure -->
+            {% for msg in get_flashed_messages(category_filter=['err']) %}
+                <p class="login-box-msg" style="color: red">
+                    {{ msg }}
+                </p>
+            {% endfor %}
+            <!-- Success -->
+            {% for msg in get_flashed_messages(category_filter=['ok']) %}
+                <p class="login-box-msg" style="color: green">
+                    {{ msg }}
+                </p>
+            {% endfor %}
+
+            <!-- 2. Set up form submission -->
+            <form method="post" id="form-data">
+                <!-- 2.1 Account (form as an object like stu.getName()) -->
+                <div class="form-group has-feedback" style="height: 30px">
+                    {{ form.account }}
+                    <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                    {% for err in form.account.errors %}
+                        <div class="col-md-12">
+                            <p style="color: red">{{ err }}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <!-- 2.2 Password -->
+                <div class="form-group has-feedback" style="height: 30px">
+                    {{ form.pwd }}
+                    <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                    {% for err in form.pwd.errors %}
+                        <div class="col-md-12">
+                            <p style="color: red">{{ err }}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <!-- 2.3 Login Button -->
+                <div class="row">
+                    <div class="col-xs-8"></div>
+                    <div class="col-xs-4">
+                        <!-- Token for protecting validation -->
+                        {{ form.csrf_token }}
+                        {{ form.submit }}
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 3. Load JS Files -->
+    <script src="{{ url_for('static', filename='admin/plugins/jQuery/jQuery-2.2.0.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='admin/bootstrap/js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='admin/plugins/iCheck/icheck.min.js') }}"></script>
+</body>
+</html>

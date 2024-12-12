@@ -1,40 +1,63 @@
-<!-- Main Page Menu -->
+<!--Main Page Menu-->
 <ul class="sidebar-menu">
-    <!-- 1. Menu Management -->
+    <!--1. Menu Management-->
     <li class="header">Menu Management</li>
-
-    <!-- 1.1 Home Page -->
     <li class="treeview" id="g-1">
         <a href="#">
             <i class="fa fa-home" aria-hidden="true"></i>
             <span>Home</span>
-            <span class="label label-primary pull-right">1</span>
+            <span class="label label-primary pull-right">
+                1
+            </span>
         </a>
         <ul class="treeview-menu">
             <li id="g-1-1">
                 <a href="{{ url_for('admin.index') }}">
-                    <i class="fa fa-circle-o"></i> Dashboard
+                    <i class="fa fa-circle-o"></i>Control Panel
                 </a>
             </li>
         </ul>
     </li>
-
-    <!-- 2. Tag Management -->
+    <!--2. Tag Management-->
     <li class="treeview" id="g-2">
         <a href="#">
             <i class="fa fa-home" aria-hidden="true"></i>
             <span>Tag Management</span>
-            <span class="label label-primary pull-right">2</span>
+            <span class="label label-primary pull-right">
+                2
+            </span>
         </a>
         <ul class="treeview-menu">
             <li id="g-2-1">
                 <a href="{{ url_for('admin.tag_add') }}">
-                    <i class="fa fa-circle-o"></i> Add Tag
+                    <i class="fa fa-circle-o"></i>Add Tag
                 </a>
             </li>
-            <li id="g-2-2">
-                <a href="{{ url_for('admin.tag_list', page=1) }}">
-                    <i class="fa fa-circle-o"></i> Tag List
+             <li id="g-2-2">
+                <a href="{{ url_for('admin.tag_list',page=1) }}">
+                    <i class="fa fa-circle-o"></i>Tag List
+                </a>
+            </li>
+        </ul>
+    </li>
+    <!--3. Movie Management-->
+    <li class="treeview" id="g-3">
+        <a href="#">
+            <i class="fa fa-home" aria-hidden="true"></i>
+            <span>Movie Management</span>
+            <span class="label label-primary pull-right">
+                2
+            </span>
+        </a>
+        <ul class="treeview-menu">
+            <li id="g-3-1">
+                <a href="{{ url_for('admin.movie_add') }}">
+                    <i class="fa fa-circle-o"></i>Add Movie
+                </a>
+            </li>
+             <li id="g-3-2">
+                <a href="{{ url_for('admin.movie_list',page=1) }}">
+                    <i class="fa fa-circle-o"></i>Movie List
                 </a>
             </li>
         </ul>

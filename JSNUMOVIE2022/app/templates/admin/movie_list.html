@@ -1,0 +1,116 @@
+<!--1. Extend admin.html-->
+{% extends 'admin/admin.html' %}
+
+<!--2. Import pagination query page-->
+{% import 'ui/admin_page.html' as pg %}
+
+<!--3. Main content for movie list-->
+{% block content %}
+    <!--3.1 Display breadcrumb navigation-->
+    <section class="content-header">
+        <h1>Starry Sky Movie Management System | Admin</h1>
+        <ol class="breadcrumb">
+            <li>
+                <a href="#">
+                    <i class="fa fa-dashboard"></i> Movie Management
+                </a>
+            </li>
+            <li class="active">
+                Movie List
+            </li>
+        </ol>
+    </section>
+    <!--3.2 List of queried data-->
+    <section class="content" id="showcontent">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-primary">
+                    <div class="box-header">
+                        <h3 class="box-title">Movie List</h3>
+                        <div class="box-tools">
+                            <div class="input-group input-group-sm" style="width: 150px">
+                                <input type="text" name="table_search" class="form-control pull-right" placeholder="Enter a keyword">
+                                <div class="input-group-btn">
+                                    <button type="submit" class="btn btn-default">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Display pagination list-->
+                    <div class="box-body table-responsive no-padding">
+                        <!--Success alert-->
+                        {% for msg in get_flashed_messages(category_filter=['ok']) %}
+                            <div class="alert alert-success alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true"></button>
+                                <h4>
+                                    <i class="icon fa fa-check"></i> Operation Successful
+                                </h4>
+                                {{ msg }}
+                            </div>
+                        {% endfor %}
+                        <!--Error alert-->
+                        {% for msg in get_flashed_messages(category_filter=['err']) %}
+                            <div class="alert alert-danger alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true"></button>
+                                <h4>
+                                    <i class="icon fa fa-check"></i> Operation Failed
+                                </h4>
+                                {{ msg }}
+                            </div>
+                        {% endfor %}
+                        <!--Table display-->
+                        <table class="table table-hover">
+                            <tbody>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Title</th>
+                                    <th>Duration</th>
+                                    <th>Tag</th>
+                                    <th>Region</th>
+                                    <th>Rating</th>
+                                    <th>Play Count</th>
+                                    <th>Comment Count</th>
+                                    <th>Release Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                                {% for v in page_data.items %}
+                                    <tr>
+                                        <td>{{ v.id }}</td>
+                                        <td>{{ v.title }}</td>
+                                        <td>{{ v.length }} minutes</td>
+                                        <td>{{ v.tag.name }}</td>
+                                        <td>{{ v.area }}</td>
+                                        <td>{{ v.star }}</td>
+                                        <td>{{ v.playnum }}</td>
+                                        <td>{{ v.commentnum }}</td>
+                                        <td>{{ v.release_time }}</td>
+                                        <td>
+                                            <a href="{{ url_for('admin.movie_edit', id=v.id) }}" class="label label-success">Edit</a>
+                                            <a href="{{ url_for('admin.movie_del', id=v.id) }}" class="label label-danger">Delete</a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!--Pagination display-->
+                <div class="box-footer clearfix">
+                    {{ pg.page(page_data, 'admin.movie_list') }}
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+<!--3. JavaScript loading area-->
+{% block js %}
+    <script>
+        $(document).ready(function () {
+           $("#g-3").addClass("active");
+           $("#g-3-2").addClass("active");
+        });
+    </script>
+{% endblock %}

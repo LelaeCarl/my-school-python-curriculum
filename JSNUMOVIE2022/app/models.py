@@ -1,82 +1,106 @@
-"""
-app/models.py
-"""
 from app import db
 from datetime import datetime
 
-# 1. Admin Model
+# 1. Administrator
 class Admin(db.Model):
-    # 1.1 Set table name (matches database table name)
+    # 1.1 Set table name (database table name matches)
     __tablename__ = 'admin'
 
-    # 1.2 Ensure table existence
+    # 1.2 Ensure the table exists
     table_args = {'useexisting': True}
 
     # 1.3 Set mappings
     id = db.Column(db.Integer, primary_key=True)  # ID
-    name = db.Column(db.String(100), unique=True)  # Unique admin username
-    pwd = db.Column(db.String(100))  # Admin password
-    is_super = db.Column(db.SmallInteger)  # Super admin flag (0 or 1)
+    name = db.Column(db.String(100), unique=True)  # Administrator account (unique)
+    pwd = db.Column(db.String(100))  # Administrator password
+    is_super = db.Column(db.SmallInteger)  # Is it an administrator (0 or 1)
     role_id = db.Column(db.Integer)  # Role ID
-    addtime = db.Column(db.DateTime, index=True, default=datetime.now())  # Creation time
+    addtime = db.Column(db.DateTime, index=True, default=datetime.now())
 
-    # 1.4 Foreign key relationships
-    adminlogs = db.relationship("Adminlog", backref='admin')  # Admin login logs
-    oplogs = db.relationship("Oplog", backref='admin')  # Admin operation logs
+    # 1.4 Foreign key associations
+    # Administrator login logs
+    adminlogs = db.relationship("Adminlog", backref='admin')
+    # Administrator operation logs
+    oplogs = db.relationship("Oplog", backref='admin')
 
-    # 1.5 Set object representation
+    # 1.5 Set object properties
     def __repr__(self):
-        return f"<Admin {self.name}>"
+        return "<Admin %r>" % self.name
 
-    # 1.6 Check if passwords match
+    # 1.6 Check if the password matches
     def check_pwd(self, userPwd):
         return self.pwd == userPwd
 
-# 2. Admin Login Log Model
+# 2. Administrator login logs
 class Adminlog(db.Model):
     # 2.1 Set table name
     __tablename__ = 'adminlog'
-    # 2.2 Ensure table existence
+    # 2.2 Ensure the table exists
     table_args = {'useexisting': True}
     # 2.3 Set mappings
     id = db.Column(db.Integer, primary_key=True)
-    admin_id = db.Column(db.Integer, db.ForeignKey("admin.id"))  # Foreign key to admin
+    admin_id = db.Column(db.Integer, db.ForeignKey("admin.id"))
     ip = db.Column(db.String(100))  # Login IP address
-    addtime = db.Column(db.DateTime, index=True, default=datetime.now())  # Log time
+    addtime = db.Column(db.DateTime, index=True, default=datetime.now())
 
-    # 2.4 Set object representation
+    # 2.4 Set return value
     def __repr__(self):
-        return f"<Adminlog {self.id}>"
+        return "<Adminlog %r>" % self.id
 
-# 3. Tag Model
+# 3. Tag table
 class Tag(db.Model):
     # 3.1 Set table name
     __tablename__ = 'tag'
-    # 3.2 Ensure table existence
+    # 3.2 Ensure the table exists
     table_args = {'useexisting': True}
     # 3.3 Set mappings
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(10), unique=True)  # Unique tag name
-    addtime = db.Column(db.DateTime, index=True, default=datetime.now())  # Creation time
+    name = db.Column(db.String(10), unique=True)
+    addtime = db.Column(db.DateTime, index=True, default=datetime.now())
 
-    # 3.4 Foreign key relationships
-    # movies = db.relationship("Movie", backref='tag')  # Uncomment when related model exists
+    # 3.4 Set foreign key associations
+    movies = db.relationship("Movie", backref='tag')
 
-    # Set object representation
+    # Return attribute value
     def __repr__(self):
-        return f"<Tag {self.name}>"
+        return "<Tag %r>" % self.name
 
-# 4. Admin Operation Log Model
+# 4. Administrator operation logs
 class Oplog(db.Model):
     __tablename__ = 'oplog'
     table_args = {'useexisting': True}
 
     id = db.Column(db.Integer, primary_key=True)
-    admin_id = db.Column(db.Integer, db.ForeignKey("admin.id"))  # Foreign key to admin
-    ip = db.Column(db.String(100))  # IP address
+    admin_id = db.Column(db.Integer, db.ForeignKey("admin.id"))
+    ip = db.Column(db.String(100))
     reason = db.Column(db.String(100))  # Operation reason
-    addtime = db.Column(db.DateTime, index=True, default=datetime.now())  # Log time
+    addtime = db.Column(db.DateTime, index=True, default=datetime.now())
 
-    # Set object representation
     def __repr__(self):
-        return f"<Oplog {self.id}>"
+        return "<Oplog %r>" % self.id
+
+# 5. Movie table
+class Movie(db.Model):
+    __tablename__ = 'movie'
+    table_args = {'useexisting': True}
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(255), unique=True)
+    url = db.Column(db.String(255), unique=True)
+    info = db.Column(db.Text)
+    logo = db.Column(db.String(255), unique=True)
+    star = db.Column(db.SmallInteger)
+    playnum = db.Column(db.BigInteger)
+    commentnum = db.Column(db.BigInteger)
+
+    tag_id = db.Column(db.Integer, db.ForeignKey('tag.id'))
+    area = db.Column(db.String(255))
+    release_time = db.Column(db.Date)
+    length = db.Column(db.String(100))
+    addtime = db.Column(db.DateTime, index=True, default=datetime.now())
+
+    # Foreign key associations for comments and collections
+    # comments = db.relationship("Comment", backref='movie')
+    # moviecols = db.relationship("Moviecol", backref='movie')
+
+    def __repr__(self):
+        return "<Movie %r>" % self.title

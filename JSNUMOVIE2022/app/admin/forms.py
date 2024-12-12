@@ -1,17 +1,23 @@
+'''
+Forms
+The Flask framework does not provide comprehensive form validation internally; a third-party plugin is needed.
+The officially recommended plugin for form validation is WTForms.
+WTForms is a form component that supports multiple web frameworks, primarily used to validate data from user requests.
+WTForms categorizes functionalities as follows:
+
+Forms: Primarily used for form validation, field definitions, HTML generation, and integrating various validation processes.
+Fields: Responsible for rendering (generating HTML) and data conversion, e.g., zpp ===> account = "zpp".
+Validators: Primarily used to validate the legality of user input, such as the Length validator.
+Widgets: HTML plugins allowing customization of small parts of HTML within fields through a dictionary.
+Extensions: Rich libraries for integration with other frameworks.
+
+Break for 20 minutes. Class resumes at 15:25.
+'''
+
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, FileField, TextAreaField, SelectField
 from wtforms.validators import DataRequired, ValidationError
 from app.models import Admin, Tag
-
-# Flask framework does not provide comprehensive form validation internally. Third-party plugins are needed.
-# The official recommendation is a form validation plugin called WTForms.
-# WTForms is a form component that supports various web frameworks, primarily used for validating user-requested data.
-# WTForms is classified into the following categories by functionality:
-# Forms: Mainly used for form validation, field definition, HTML generation, and integrating various validation processes.
-# Fields: Primarily responsible for rendering (generating HTML) and data conversion, e.g., account = "zpp".
-# Validator: Mainly validates the legitimacy of user input data, such as the Length validator.
-# Widgets: HTML plugins that allow users to customize small parts of HTML in the fields.
-# Extensions: A rich library of extensions that can be used with other frameworks.
 
 # 1. Admin Login Form
 class LoginForm(FlaskForm):
@@ -22,7 +28,7 @@ class LoginForm(FlaskForm):
         description="Admin account",
         render_kw={
             'class': 'form-control',
-            'placeholder': "Please enter the admin account"
+            'placeholder': "Enter admin account"
         }
     )
     # 1.2 Password
@@ -32,23 +38,23 @@ class LoginForm(FlaskForm):
         description="Admin password",
         render_kw={
             'class': 'form-control',
-            'placeholder': "Please enter the user password"
+            'placeholder': "Enter user password"
         }
     )
-    # 1.3 Button
+    # 1.3 Submit button
     submit = SubmitField(
         label="Login",
         render_kw={
             'class': 'btn btn-primary btn-block btn-flat'
         }
     )
-    # 1.4 Validate whether account exists (field is the account field object)
+    # 1.4 Validate if account exists (field is the account input field object)
     def validate_account(self, field):
-        # 1.4.1 Get the value of the account input by the user in the text box
+        # 1.4.1 Get the value of the account entered by the user
         account = field.data
-        # 1.4.2 Query the database for the account value
+        # 1.4.2 Query the database for the account
         admin = Admin.query.filter_by(name=account).count()
-        # 1.4.3 Check if the account exists
+        # 1.4.3 Check if it exists
         if admin == 0:
             raise ValidationError("Account does not exist!!!!")
 
@@ -61,7 +67,7 @@ class TagForm(FlaskForm):
         render_kw={
             'class': 'form-control',
             'id': 'input_name',
-            'placeholder': 'Please enter the movie tag name!!!'
+            'placeholder': 'Enter movie tag name!!!'
         }
     )
     submit = SubmitField(
@@ -75,14 +81,14 @@ class MovieForm(FlaskForm):
     title = StringField(
         label="Title",
         validators=[DataRequired("Title cannot be empty!!!")],
-        description="Movie name",
+        description="Movie title",
         render_kw={
             'class': 'form-control',
             'id': 'input_title',
-            'placeholder': 'Please enter the title'
+            'placeholder': 'Enter title'
         }
     )
-    # 3.2 Movie Storage Path (Local Path)
+    # 3.2 Movie File Path (local path)
     url = FileField(
         label="Movie File",
         validators=[DataRequired("Please upload a file")],
@@ -90,7 +96,7 @@ class MovieForm(FlaskForm):
     )
     # 3.3 Movie Synopsis
     info = TextAreaField(
-        label="Movie Synopsis",
+        label="Synopsis",
         validators=[DataRequired("Synopsis cannot be empty")],
         description="Movie synopsis",
         render_kw={
@@ -101,16 +107,16 @@ class MovieForm(FlaskForm):
     # 3.4 Movie Poster
     logo = FileField(
         label="Movie Poster",
-        validators=[DataRequired("Please upload the movie poster")],
+        validators=[DataRequired("Please upload a movie poster")],
         description="Movie poster"
     )
-    # 3.5 Movie Star Rating
+    # 3.5 Movie Rating
     star = SelectField(
-        label="Star Rating",
-        validators=[DataRequired("Please select a star rating")],
+        label="Rating",
+        validators=[DataRequired("Please select a rating")],
         coerce=int,
         choices=[(1, '1 Star'), (2, '2 Stars'), (3, '3 Stars'), (4, '4 Stars'), (5, '5 Stars')],
-        description="Star rating",
+        description="Rating",
         render_kw={
             'class': 'form-control'
         }
@@ -129,21 +135,21 @@ class MovieForm(FlaskForm):
     # 3.7 Region
     area = StringField(
         label="Region",
-        validators=[DataRequired("Please enter the region")],
+        validators=[DataRequired("Enter a region")],
         description='Region',
         render_kw={
             'class': 'form-control',
-            'placeholder': "Please enter the region"
+            'placeholder': "Enter region"
         }
     )
     # 3.8 Movie Duration
     length = StringField(
-        label="Movie Duration",
+        label="Duration",
         validators=[DataRequired("Duration cannot be empty!!!")],
         description='Movie duration',
         render_kw={
             'class': 'form-control',
-            'placeholder': 'Please enter the movie duration!!!'
+            'placeholder': 'Enter movie duration!!!'
         }
     )
     # 3.9 Release Date
@@ -153,13 +159,36 @@ class MovieForm(FlaskForm):
         description="Release date",
         render_kw={
             'class': 'form-control',
-            'placeholder': "Please select the release date",
+            'placeholder': "Select release date",
             'id': 'input_release_time'
         }
     )
-    # 3.10 Button
+    # 3.10 Submit Button
     submit = SubmitField(
         label='Add',
+        render_kw={
+            'class': 'btn btn-primary'
+        }
+    )
+
+# 4. Preview Form
+class PreviewForm(FlaskForm):
+    title = StringField(
+        label="Preview Title",
+        validators=[DataRequired("Preview title cannot be empty!!!")],
+        description="Title for the preview of the upcoming movie",
+        render_kw={
+            'class': 'form-control',
+            'placeholder': 'Enter preview title'
+        }
+    )
+    logo = FileField(
+        label='Preview Poster',
+        validators=[DataRequired('Preview poster cannot be empty')],
+        description='Preview poster'
+    )
+    submit = SubmitField(
+        label='Add Preview',
         render_kw={
             'class': 'btn btn-primary'
         }

@@ -104,3 +104,15 @@ class Movie(db.Model):
 
     def __repr__(self):
         return "<Movie %r>" % self.title
+
+# 6. Preview table
+class Preview(db.Model):
+    __tablename__ = 'preview'
+    table_args = {'useexisting':True}
+    id = db.Column(db.Integer,primary_key=True)
+    title = db.Column(db.String(255),unique=True)
+    logo = db.Column(db.String(255),unique=True)
+    addtime = db.Column(db.DateTime,index=True,
+                        default=datetime.now())
+    def __repr__(self):
+        return "<Preview %r>"%self.title

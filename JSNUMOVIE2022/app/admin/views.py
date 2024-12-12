@@ -3,9 +3,9 @@ import stat
 
 from . import admin
 from flask import render_template, flash, redirect, url_for, session, request
-from app.admin.forms import LoginForm, TagForm, MovieForm
+from app.admin.forms import LoginForm, TagForm, MovieForm, PreviewForm
 from app import db  # Variable from app.__init__.py
-from app.models import Admin, Adminlog, Tag, Oplog, Movie
+from app.models import Admin, Adminlog, Tag, Oplog, Movie, Preview
 from werkzeug.utils import secure_filename
 from app import app
 import uuid
@@ -219,12 +219,134 @@ def movie_del(id=None):
         # 10.2.4 Redirect
         return redirect(url_for("admin.movie_list",page=1))
 
-# Change file name
-def chang_filename(filename):
-    # 1. Extract file information D:/movie/ZhanLang.wav
-    fileInfo = os.path.splitext(filename)
-    # 2. Generate a new file name 20241211091736ix23.wav
-    filename = datetime.now().strftime("%Y%m%d%H%M%S")\
-                +str(uuid.uuid4().hex)+fileInfo[-1]
-    return filename
+# 11. Preview Management - Add Preview
+@admin.route("/preview_add/", methods=['GET', 'POST'])
+def preview_add():
+    # 11.1 Get preview form
+    form = PreviewForm()
+    # 11.2 Check if the button is clicked
+    if form.validate_on_submit():
+        # 11.3 Get form data
+        data = form.data
+        # 11.4 Handle logo
+        file_logo = secure_filename(form.logo.data.filename)
+        # 11.5 Check if uploads directory exists
+        if not os.path.exists(app.config['UP_DIR']):
+            # 11.5.1 Create directory
+            os.mkdir(app.config['UP_DIR'])
+            # 11.5.2 Set directory permissions
+            os.chmod(app.config['UP_DIR'], stat.S_IRWXU)
+        # 11.6 Rename the logo
+        new_logo = chang_filename(file_logo)
+        # 11.7 Save the data
+        form.logo.data.save(app.config['UP_DIR'] + new_logo)
+        # 11.8 Set the model
+        preview = Preview(
+            title=data['title'],
+            logo=new_logo,
+            addtime=datetime.now()
+        )
+        # 11.9 Add data to the database
+        db.session.add(preview)
+        db.session.commit()
+        # 11.10 Display a popup message
+        flash("Preview added successfully!", 'ok')
+        # 11.11 Redirect
+        return redirect(url_for("admin.preview_add"))
+    return render_template("admin/preview_add.html",
+                           form=form)
 
+# 12. Preview Management - Preview List
+@admin.route("/preview_list/<int:page>", methods=['GET', 'POST'])
+def preview_list(page=None):
+    # 12.1 Check if page has a value
+    if page is None:
+        page = 1
+    # 12.2 Paginate data sorted by add time
+    page_data = Preview.query.order_by(
+        Preview.addtime.desc()
+    ).paginate(page=page, per_page=3)
+    # 12.3 Return page
+    return render_template("admin/preview_list.html",
+                           page_data=page_data)
+
+# 13. Preview Management - Edit Preview
+@admin.route("/preview_edit/<int:id>/", methods=['GET', 'POST'])
+def preview_edit(id=None):
+    # 13.1 Get preview form
+    form = PreviewForm()
+    # 13.2 Remove logo validators
+    form.logo.validators = []
+    # 13.3 Query preview by ID
+    preview = Preview.query.get_or_404(int(id))
+    # 13.4 Check request type
+    if request.method == 'GET':
+        # 13.4.1 Set preview title in the form
+        form.title.data = preview.title
+    # 13.5 Check form submission
+    if form.validate_on_submit():
+        # 13.6 Get form data
+        data = form.data
+        # 13.7 Query by title to check if it exists
+        preview_count = Preview.query.filter_by(
+            title=data['title']).count()
+        # 13.8 Check if title already exists
+        if preview_count == 1 and \
+           preview.title != data['title']:
+            flash("Preview title already exists", 'err')
+            return redirect(url_for('admin.preview_edit', id=id))
+        # 13.9 Create directory if not exists
+        if not os.path.exists(app.config['UP_DIR']):
+            # 13.9.1 Create directory
+            os.mkdir(app.config['UP_DIR'])
+            # 13.9.2 Set directory permissions
+            os.chmod(app.config['UP_DIR'], stat.S_IRWXU)
+
+        # 13.10 Upload new image
+        if form.logo.data != "":
+            # 13.10.1 Remove existing image
+            os.remove(app.config['UP_DIR'] + preview.logo)
+            # 13.10.2 Upload new file
+            file_logo = secure_filename(form.logo.data.filename)
+            # 13.10.3 Rename file
+            preview.logo = chang_filename(file_logo)
+            # 13.10.4 Save new file
+            form.logo.data.save(
+                app.config['UP_DIR'] + preview.logo)
+        # 13.11 Update other data
+        preview.title = data['title']
+        # 13.12 Submit changes
+        db.session.add(preview)
+        db.session.commit()
+        # 13.13 Display a popup message
+        flash("Preview updated successfully", "ok")
+        # 13.14 Redirect
+        return redirect(url_for('admin.preview_edit', id=id))
+
+    return render_template("admin/preview_edit.html",
+                           form=form, preview=preview)
+
+# 14. Preview Management - Delete Preview
+@admin.route("/preview_del/<int:id>", methods=['GET'])
+def preview_del(id=None):
+    # 14.1 Check if preview exists
+    preview = Preview.query.get_or_404(id)
+    # 14.2 Delete preview
+    if preview is not None:
+        # 14.3 Remove preview poster
+        os.remove(app.config['UP_DIR'] + preview.logo)
+        # 14.4 Delete preview object
+        db.session.delete(preview)
+        db.session.commit()
+        # 14.5 Display a popup message
+        flash(f"<<<{preview.title}>>> deleted successfully!", 'ok')
+        return redirect(url_for("admin.preview_list", page=1))
+
+# Rename file
+def chang_filename(filename):
+    # 1. Extract file information, e.g., D:/movie/sample.wav
+    file_info = os.path.splitext(filename)
+    # 2. Generate new filename, e.g., 20241211091736ix23.wav
+    filename = datetime.now().strftime("%Y%m%d%H%M%S") \
+               + str(uuid.uuid4().hex) + file_info[-1]
+    return filename

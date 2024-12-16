@@ -1,22 +1,22 @@
-<!--Main Page Menu-->
+<!--Main Page Menu Management-->
 <ul class="sidebar-menu">
     <!--1. Menu Management-->
     <li class="header">Menu Management</li>
     <li class="treeview" id="g-1">
-        <a href="#">
+        <a href=" ">
             <i class="fa fa-home" aria-hidden="true"></i>
             <span>Home</span>
             <span class="label label-primary pull-right">
                 1
-            </span>
-        </a>
+                </span>
+            </a >
         <ul class="treeview-menu">
             <li id="g-1-1">
                 <a href="{{ url_for('admin.index') }}">
-                    <i class="fa fa-circle-o"></i>Control Panel
-                </a>
+                    <i class="fa fa-circle-o"></i> Control Panel
+                    </a >
             </li>
-        </ul>
+            </ul>
     </li>
     <!--2. Tag Management-->
     <li class="treeview" id="g-2">
@@ -26,17 +26,17 @@
             <span class="label label-primary pull-right">
                 2
             </span>
-        </a>
+        </a >
         <ul class="treeview-menu">
             <li id="g-2-1">
                 <a href="{{ url_for('admin.tag_add') }}">
                     <i class="fa fa-circle-o"></i>Add Tag
                 </a>
             </li>
-             <li id="g-2-2">
+            <li id="g-2-2">
                 <a href="{{ url_for('admin.tag_list',page=1) }}">
                     <i class="fa fa-circle-o"></i>Tag List
-                </a>
+                </a >
             </li>
         </ul>
     </li>
@@ -48,42 +48,144 @@
             <span class="label label-primary pull-right">
                 2
             </span>
-        </a>
+        </a >
         <ul class="treeview-menu">
             <li id="g-3-1">
                 <a href="{{ url_for('admin.movie_add') }}">
                     <i class="fa fa-circle-o"></i>Add Movie
                 </a>
             </li>
-             <li id="g-3-2">
+            <li id="g-3-2">
                 <a href="{{ url_for('admin.movie_list',page=1) }}">
                     <i class="fa fa-circle-o"></i>Movie List
+                </a >
+            </li>
+        </ul>
+    </li>
+    <!--4. Preview Management-->
+    <li class="treeview" id="g-4">
+        <a href="#">
+            <i class="fa fa-home" aria-hidden="true"></i>
+            <span>Preview Management</span>
+            <span class="label label-primary pull-right">
+                2
+            </span>
+        </a >
+        <ul class="treeview-menu">
+            <li id="g-4-1">
+                <a href="{{ url_for('admin.preview_add') }}">
+                    <i class="fa fa-circle-o"></i>Add Preview
                 </a>
+            </li>
+            <li id="g-4-2">
+                <a href="{{ url_for('admin.preview_list',page=1) }}">
+                    <i class="fa fa-circle-o"></i>Preview List
+                </a >
+            </li>
+        </ul>
+    </li>
+    <!--5. Member Management-->
+    <li class="treeview" id="g-5">
+        <a href="#">
+            <i class="fa fa-home" aria-hidden="true"></i>
+            <span>Member Management</span>
+            <span class="label label-primary pull-right">
+                1
+            </span>
+        </a >
+        <ul class="treeview-menu">
+            <li id="g-5-1">
+                <a href="{{ url_for('admin.user_list',page=1) }}">
+                    <i class="fa fa-circle-o"></i>Member List
+                </a >
+            </li>
+        </ul>
+    </li>
+    <!--6. Comment Management-->
+    <li class="treeview" id="g-6">
+        <a href="#">
+            <i class="fa fa-home" aria-hidden="true"></i>
+            <span>Comment Management</span>
+            <span class="label label-primary pull-right">
+                1
+            </span>
+        </a >
+        <ul class="treeview-menu">
+            <li id="g-6-1">
+                <a href="{{ url_for('admin.comment_list',page=1) }}">
+                    <i class="fa fa-circle-o"></i>Comment List
+                </a >
+            </li>
+        </ul>
+    </li>
+    <!--7. Collection Management-->
+    <li class="treeview" id="g-7">
+        <a href="#">
+            <i class="fa fa-home" aria-hidden="true"></i>
+            <span>Collection Management</span>
+            <span class="label label-primary pull-right">
+                1
+            </span>
+        </a >
+        <ul class="treeview-menu">
+            <li id="g-7-1">
+                <a href="{{ url_for('admin.moviecol_list',page=1) }}">
+                    <i class="fa fa-circle-o"></i>Collection List
+                </a >
+            </li>
+        </ul>
+    </li>
+    <!--8. Log Management-->
+    <li class="treeview" id="g-8">
+        <a href="#">
+            <i class="fa fa-home" aria-hidden="true"></i>
+            <span>Log Management</span>
+            <span class="label label-primary pull-right">
+                3
+            </span>
+        </a >
+        <ul class="treeview-menu">
+            <li id="g-8-1">
+                <a href="{{ url_for('admin.userlog_list',page=1) }}">
+                    <i class="fa fa-circle-o"></i>Member Login Log List
+                </a >
+            </li>
+        </ul>
+        <ul class="treeview-menu">
+            <li id="g-8-2">
+                <a href="{{ url_for('admin.adminlog_list',page=1) }}">
+                    <i class="fa fa-circle-o"></i>Admin Login Log List
+                </a >
+            </li>
+        </ul>
+        <ul class="treeview-menu">
+            <li id="g-8-3">
+                <a href="{{ url_for('admin.oplog_list',page=1) }}">
+                    <i class="fa fa-circle-o"></i>Admin Operation Log List
+                </a >
+            </li>
+        </ul>
+    </li>
+    <!--9. Permission Management-->
+    <li class="treeview" id="g-9">
+        <a href="#">
+            <i class="fa fa-home" aria-hidden="true"></i>
+            <span>Permission Management</span>
+            <span class="label label-primary pull-right">
+                2
+            </span>
+        </a >
+        <ul class="treeview-menu">
+            <li id="g-9-1">
+                <a href="{{ url_for('admin.auth_add') }}">
+                    <i class="fa fa-circle-o"></i>Add Permission
+                </a>
+            </li>
+            <li id="g-9-2">
+                <a href="{{ url_for('admin.auth_list',page=1) }}">
+                    <i class="fa fa-circle-o"></i>Permission List
+                </a >
             </li>
         </ul>
     </li>
 </ul>
-
-<!-- 4. Preview Management -->
-<li class="treeview" id="g-4">
-    <a href="#">
-        <i class="fa fa-home" aria-hidden="true"></i>
-        <span>Preview Management</span>
-        <span class="label label-primary pull-right">
-            2
-        </span>
-    </a>
-    <ul class="treeview-menu">
-        <li id="g-4-1">
-            <a href="{{ url_for('admin.preview_add') }}">
-                <i class="fa fa-circle-o"></i> Add Preview
-            </a>
-        </li>
-         <li id="g-4-2">
-            <a href="{{ url_for('admin.preview_list', page=1) }}">
-                <i class="fa fa-circle-o"></i> Preview List
-            </a>
-        </li>
-    </ul>
-</li>
-

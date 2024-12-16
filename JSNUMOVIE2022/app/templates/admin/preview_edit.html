@@ -1,11 +1,11 @@
-<!-- 1. Inherit admin.html -->
+<!--1. Extend admin.html-->
 {% extends 'admin/admin.html' %}
 
-<!-- 2. Set main content -->
+<!--2. Set main content-->
 {% block content %}
     <!-- Display settings -->
     <section class="content-header">
-        <h1>Starry Sky Movie Management System | Admin Panel</h1>
+        <h1>Starry Sky Movie Management System | Admin</h1>
         <ol class="breadcrumb">
             <li>
                 <a href="#">
@@ -24,32 +24,32 @@
                     </div>
                     <form role="form" method="post" enctype="multipart/form-data">
                         <div class="box-body">
-                            <!-- Success alert box -->
+                            <!-- Success popup -->
                             {% for msg in get_flashed_messages(category_filter=['ok']) %}
                                 <div class="alert alert-success alert-dismissible">
                                     <button type="button" class="close"
                                             data-dismiss="alert" aria-hidden="true">
                                     </button>
                                     <h4>
-                                        <i class="icon fa fa-check"></i>Operation Successful
+                                        <i class="icon fa fa-check"></i> Operation Successful
                                     </h4>
                                     {{ msg }}
                                 </div>
                             {% endfor %}
-                            <!-- Failure alert box -->
+                            <!-- Failure popup -->
                             {% for msg in get_flashed_messages(category_filter=['err']) %}
                                 <div class="alert alert-danger alert-dismissible">
                                     <button type="button" class="close"
                                             data-dismiss="alert" aria-hidden="true">
                                     </button>
                                     <h4>
-                                        <i class="icon fa fa-check"></i>Operation Failed
+                                        <i class="icon fa fa-check"></i> Operation Failed
                                     </h4>
                                     {{ msg }}
                                 </div>
                             {% endfor %}
                             <!-- Preview settings -->
-                            <!-- 1. Preview Title -->
+                            <!--1. Preview title-->
                             <div class="form-group">
                                 <label for="input_title">{{ form.title.label }}</label>
                                 {{ form.title(value=preview.title) }}
@@ -59,22 +59,21 @@
                                     </div>
                                 {% endfor %}
                             </div>
-                            <!-- 2. Preview Poster -->
+                            <!--2. Preview poster-->
                             <div class="form-group">
                                 <label for="input_logo">{{ form.logo.label }}</label>
                                 {{ form.logo(value=preview.logo) }}
                                 {% for err in form.logo.errors %}
                                     <div class="col-md-12">
-                                        <p style="color: red">{{ err }}</p>
+                                        <p style="color: red;">{{ err }}</p>
                                     </div>
                                 {% endfor %}
-                                <img src="{{ url_for('static',
-                                        filename='uploads/' + preview.logo) }}"
-                                     style="margin-top: 5px;width: 600px;height: 600px;"
+                                <img src="{{ url_for('static', filename='uploads/'+preview.logo) }}"
+                                     style="margin-top:5px; width:600px;height:600px;"
                                      class="img-responsive" alt=""/>
                             </div>
                         </div>
-                        <!-- Set token and submit button -->
+                        <!-- Set token and add button -->
                         <div class="box-footer">
                             {{ form.csrf_token }}
                             {{ form.submit }}
@@ -86,10 +85,10 @@
     </section>
 {% endblock %}
 
-<!-- 3. JS Loading Area -->
+<!--3. JS loading area-->
 {% block js %}
     <script>
-        $(document).ready(function () {
+        $(document).ready(function (){
             $("#g-4").addClass("active");
             $("#g-4-2").addClass("active");
         });

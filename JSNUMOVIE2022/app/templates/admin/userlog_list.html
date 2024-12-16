@@ -4,19 +4,19 @@
 <!--2. Import pagination query page-->
 {% import 'ui/admin_page.html' as pg %}
 
-<!--3. Preview list main content-->
+<!--3. Movie list main content-->
 {% block content %}
     <!--3.1 Display path address-->
     <section class="content-header">
-        <h1>Starry Sky Preview Management System | Admin</h1>
+        <h1>Starry Sky Movie Management System | Admin</h1>
         <ol class="breadcrumb">
             <li>
                 <a href="#">
-                    <i class="fa fa-dashboard"></i> Preview Management
+                    <i class="fa fa-dashboard"></i> Log Management
                 </a>
             </li>
-            <li>
-                Preview List
+            <li class="active">
+                Member Login Log List
             </li>
         </ol>
     </section>
@@ -26,7 +26,7 @@
             <div class="col-md-12">
                 <div class="box box-primary">
                     <div class="box header">
-                        <h3 class="box-title">Preview List</h3>
+                        <h3 class="box-title">Member Login Log List</h3>
                         <div class="box-tools">
                             <div class="input-group input-group-sm" style="width:150px">
                                 <input type="text" name="table_search"
@@ -71,25 +71,16 @@
                             <tbody>
                                 <tr>
                                     <td>ID</td>
-                                    <td>Title</td>
-                                    <td>Cover</td>
-                                    <td>Added Time</td>
-                                    <td>Actions</td>
+                                    <td>Member</td>
+                                    <td>IP</td>
+                                    <td>Login Time</td>
                                 </tr>
                                 {% for v in page_data.items %}
                                     <tr>
                                         <td>{{ v.id }}</td>
-                                        <td>{{ v.title }}</td>
-                                        <td>
-                                            <img style="width: 80px;height: 80px;"
-                                                 src="{{ url_for('static',
-                                                                  filename='uploads/'+v.logo) }}"/>
-                                        </td>
+                                        <td>{{ v.user.id }}</td>
+                                        <td>{{ v.ip }}</td>
                                         <td>{{ v.addtime }}</td>
-                                        <td>
-                                            <a href="{{ url_for('admin.preview_edit', id=v.id) }}" class="label label-success">Edit</a>
-                                            <a href="{{ url_for('admin.preview_del', id=v.id) }}" class="label label-danger">Delete</a>
-                                        </td>
                                     </tr>
                                 {% endfor %}
                             </tbody>
@@ -98,7 +89,7 @@
                 </div>
                 <!-- Pagination display -->
                 <div class="box-footer clearfix">
-                    {{ pg.page(page_data, 'admin.preview_list') }}
+                    {{ pg.page(page_data, 'admin.userlog_list') }}
                 </div>
             </div>
         </div>
@@ -109,8 +100,8 @@
 {% block js %}
     <script>
         $(document).ready(function (){
-            $("#g-4").addClass("active");
-            $("#g-4-2").addClass("active");
-        })
+            $("#g-8").addClass("active");
+            $("#g-8-1").addClass("active");
+        });
     </script>
 {% endblock %}
